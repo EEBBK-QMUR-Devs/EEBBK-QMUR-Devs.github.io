@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EEBBK-QMUR-Devs</title>
+<style>
+  :root{
+    --bg:#0b0e14;
+    --bg-soft:#11151f;
+    --fg:#e6edf3;
+    --muted:#8b98a9;
+    --accent:#4fd1c5;
+    --accent2:#7c8cff;
+    --line:rgba(255,255,255,.08);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);
+    color:var(--fg);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+
+  /* 背景光斑 */
+  .glow{
+    position:fixed;inset:0;z-index:-1;overflow:hidden;
+  }
+  .glow::before,.glow::after{
+    content:"";position:absolute;width:40vw;height:40vw;border-radius:50%;
+    filter:blur(90px);opacity:.35;animation:float 14s ease-in-out infinite;
+  }
+  .glow::before{background:var(--accent);top:-10%;left:-10%}
+  .glow::after{background:var(--accent2);bottom:-10%;right:-10%;animation-delay:-7s}
+  @keyframes float{
+    0%,100%{transform:translate(0,0)}
+    50%{transform:translate(30px,-30px)}
+  }
+
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+  /* 顶部导航 */
+  header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 0;
+  }
+  .logo{font-weight:700;letter-spacing:.5px}
+  .logo span{color:var(--accent)}
+  nav{display:flex;gap:18px;font-size:14px;color:var(--muted)}
+  nav a:hover{color:var(--fg)}
+
+  /* Hero */
+  .hero{padding:90px 0 60px;text-align:left}
+  .tag{
+    display:inline-block;font-size:12px;letter-spacing:1px;text-transform:uppercase;
+    color:var(--accent);border:1px solid var(--line);
+    padding:6px 12px;border-radius:999px;margin-bottom:22px;
+  }
+  h1{
+    font-size:clamp(34px,6vw,60px);line-height:1.1;font-weight:800;
+    background:linear-gradient(120deg,#fff,#9fb4ff);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p{
+    margin-top:20px;max-width:620px;color:var(--muted);font-size:18px;
+  }
+  .cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    padding:12px 22px;border-radius:12px;font-size:15px;font-weight:600;
+    border:1px solid var(--line);transition:.25s;backdrop-filter:blur(6px);
+  }
+  .btn.primary{background:var(--accent);color:#04201d;border-color:transparent}
+  .btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(79,209,197,.25)}
+  .btn.ghost:hover{color:var(--fg);border-color:var(--muted)}
+
+  /* 区块 */
+  section{padding:60px 0}
+  .sec-title{
+    font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+    margin-bottom:26px;
+  }
+
+  /* 卡片 */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .card{
+    background:var(--bg-soft);border:1px solid var(--line);
+    border-radius:var(--radius);padding:22px;transition:.3s;
+    opacity:0;transform:translateY(16px);
+  }
+  .card.show{opacity:1;transform:none}
+  .card:hover{transform:translateY(-4px);border-color:rgba(79,209,197,.4)}
+  .card h3{font-size:17px;margin-bottom:8px}
+  .card p{font-size:14px;color:var(--muted)}
+
+  /* 项目列表 */
+  .repos{display:grid;gap:12px}
+  .repo{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    background:var(--bg-soft);border:1px solid var(--line);
+    border-radius:12px;padding:16px 18px;transition:.25s;
+  }
+  .repo:hover{border-color:var(--accent2)}
+  .repo .name{font-weight:600}
+  .repo .desc{font-size:13px;color:var(--muted)}
+  .repo .arrow{color:var(--muted)}
+
+  footer{
+    border-top:1px solid var(--line);padding:30px 0;
+    color:var(--muted);font-size:13px;text-align:center;
+  }
+
+  @media(max-width:600px){
+    nav{display:none}
+    .hero{padding:60px 0 40px}
+  }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+
+<div class="wrap">
+  <header>
+    <div class="logo">EEBBK<span>-QMUR</span>-Devs</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#work">Projects</a>
+      <a href="https://github.com/EEBBK-QMUR-Devs" target="_blank">GitHub</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <span class="tag">Qcom · MTK · Unisoc · Rockchip</span>
+    <h1>为 EEBBK 设备<br/>续上主线内核的生命</h1>
+    <p>
+      EEBBK-QMUR-Devs 是一群折腾底层移植的开发者：
+      把 Linux mainline、U-Boot、UEFI 搬到步步高系设备上，
+      让老硬件跑上新内核、新引导、新可能。
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/EEBBK-QMUR-Devs" target="_blank">进入组织</a>
+      <a class="btn ghost" href="#work">看看在做什么</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="sec-title">What we do</div>
+    <div class="grid">
+      <div class="card">
+        <h3>Linux Mainline</h3>
+        <p>把 sdm660 / sm7150 等平台往主线内核搬，少补丁、多上游。</p>
+      </div>
+      <div class="card">
+        <h3>U-Boot / Bootloader</h3>
+        <p>为设备维护 U-Boot 分支，打通启动链与设备树。</p>
+      </div>
+      <div class="card">
+        <h3>UEFI · Project Mu</h3>
+        <p>基于 Project Silicium / Aloha 做 ARM64 UEFI 适配。</p>
+      </div>
+      <div class="card">
+        <h3>Android Device Trees</h3>
+        <p>LineageOS 设备树、vendor blob、Android kernel。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="sec-title">Pinned Repos</div>
+    <div class="repos">
+      <a class="repo" href="https://github.com/EEBBK-QMUR-Devs/linux-sdm660" target="_blank">
+        <div>
+          <div class="name">linux-sdm660</div>
+          <div class="desc">EEBBK S5 (h7000) 主线内核移植</div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+      <a class="repo" href="https://github.com/EEBBK-QMUR-Devs/linux-sm7150" target="_blank">
+        <div>
+          <div class="name">linux-sm7150</div>
+          <div class="desc">Qualcomm SM7150 mainline WIP</div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+      <a class="repo" href="https://github.com/EEBBK-QMUR-Devs/u-boot-sdm660" target="_blank">
+        <div>
+          <div class="name">u-boot-sdm660</div>
+          <div class="desc">sdm660 U-Boot 分支</div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+      <a class="repo" href="https://github.com/EEBBK-QMUR-Devs/mu_aloha_platforms" target="_blank">
+        <div>
+          <div class="name">mu_aloha_platforms</div>
+          <div class="desc">基于 Project Aloha 的 Mu UEFI 移植</div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+      <a class="repo" href="https://github.com/EEBBK-QMUR-Devs/Mu-Silicium" target="_blank">
+        <div>
+          <div class="name">Mu-Silicium</div>
+          <div class="desc">ARM64 设备 Project Mu / UEFI</div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    For the future of EEBBK, we never stop · EEBBK-QMUR-Devs
+  </footer>
+</div>
+
+<script>
+  // 滚动淡入
+  const cards = document.querySelectorAll('.card');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+    });
+  },{threshold:.2});
+  cards.forEach(c=>io.observe(c));
+</script>
+</body>
+</html>
